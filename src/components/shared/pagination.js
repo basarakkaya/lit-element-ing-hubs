@@ -1,4 +1,5 @@
 import {LitElement, css, html} from 'lit';
+import 'fa-icons';
 
 import store from '../../services/store';
 
@@ -115,7 +116,7 @@ export class Pagination extends LitElement {
         @click=${this._goToPreviousPage}
         ?disabled=${this.pagination.currentPage === 1}
       >
-        <
+        <fa-icon class="fas fa-chevron-left" size="1em"></fa-icon>
       </button>
       ${[...Array(pagesCount)].map(
         (page, pageIndex) => html`
@@ -134,7 +135,7 @@ export class Pagination extends LitElement {
         @click=${this._goToNextPage}
         ?disabled=${this.pagination.currentPage === pagesCount}
       >
-        >
+        <fa-icon class="fas fa-chevron-right" size="1em"></fa-icon>
       </button>
     `;
   }

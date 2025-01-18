@@ -1,4 +1,5 @@
 import {LitElement, html, css} from 'lit';
+import 'fa-icons';
 
 import {MODAL_TYPES} from '../../consts/modalTypes';
 import i18n, {LANGUAGES} from '../../services/i18n';
@@ -64,6 +65,7 @@ export class NavigationBar extends LitElement {
       border-radius: 4px;
       border: none;
       cursor: pointer;
+      height: 2rem;
     }
 
     .add-new-btn:hover {
@@ -74,6 +76,7 @@ export class NavigationBar extends LitElement {
       position: relative;
       display: flex;
       align-items: center;
+      height: 2rem;
     }
 
     .lang-button {
@@ -87,6 +90,7 @@ export class NavigationBar extends LitElement {
       background: white;
       color: #4b5563;
       font-size: 0.875rem;
+      height: 100%;
     }
 
     .lang-button:hover {
@@ -226,7 +230,8 @@ export class NavigationBar extends LitElement {
           </a>
 
           <button class="add-new-btn" @click=${this._handleAddNew}>
-            <span>${i18n.t('navigation.addEmployee')}</span>
+            <fa-icon class="fas fa-plus" color="white" size="1em"></fa-icon>
+            <span> ${i18n.t('navigation.addEmployee')}</span>
           </button>
 
           <div class="lang-selector">

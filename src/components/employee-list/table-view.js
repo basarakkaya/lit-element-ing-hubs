@@ -1,4 +1,5 @@
 import {LitElement, css, html} from 'lit';
+import 'fa-icons';
 
 import {MODAL_TYPES} from '../../consts/modalTypes';
 import store from '../../services/store';
@@ -130,13 +131,13 @@ export class TableView extends LitElement {
                     class="action-button"
                     @click=${() => this._handleEdit(employee)}
                   >
-                    ✏️
+                    <fa-icon class="fas fa-edit" size="1em"></fa-icon>
                   </button>
                   <button
                     class="action-button"
                     @click=${() => this._handleDelete(employee)}
                   >
-                    🗑️
+                    <fa-icon class="fas fa-trash" size="1em"></fa-icon>
                   </button>
                 </td>
               </tr>

@@ -1,4 +1,5 @@
 import {LitElement, css, html} from 'lit';
+import 'fa-icons';
 
 import i18n from '../../services/i18n';
 import store from '../../services/store';
@@ -84,7 +85,7 @@ export class Header extends LitElement {
             class="${`view-button ${this.view === viewMode ? 'active' : ''}`}"
             @click=${() => this._setViewMode(viewMode)}
           >
-            ${viewMode}
+            <fa-icon class="${`fas fa-${viewMode}`}" size="1em"></fa-icon>
           </button>`
       )}
     `;

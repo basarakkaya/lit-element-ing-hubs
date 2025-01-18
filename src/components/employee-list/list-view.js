@@ -1,4 +1,5 @@
 import {LitElement, css, html} from 'lit';
+import 'fa-icons';
 
 import {MODAL_TYPES} from '../../consts/modalTypes';
 import store from '../../services/store';
@@ -71,34 +72,24 @@ export class ListView extends LitElement {
       margin-top: 1.5rem;
       padding-top: 1rem;
       border-top: 1px solid #eee;
+      justify-content: flex-end;
     }
 
     .action-button {
-      flex: 1;
       padding: 0.5rem;
-      border: none;
+      border: 1px solid #ff6b00;
       border-radius: 4px;
       font-size: 0.875rem;
       cursor: pointer;
       transition: background-color 0.2s ease;
+      background-color: white;
+      color: #ff6b00;
+      width: 2rem;
+      height: 2rem;
     }
 
-    .edit-button {
-      background-color: #e3f2fd;
-      color: #1976d2;
-    }
-
-    .edit-button:hover {
-      background-color: #bbdefb;
-    }
-
-    .delete-button {
-      background-color: #ffebee;
-      color: #d32f2f;
-    }
-
-    .delete-button:hover {
-      background-color: #ffcdd2;
+    .action-button:hover {
+      background-color: #f3f4f6;
     }
   `;
 
@@ -195,13 +186,13 @@ export class ListView extends LitElement {
                   class="action-button edit-button"
                   @click=${() => this._handleEdit(employee)}
                 >
-                  Edit
+                  <fa-icon class="fas fa-edit" size="1em"></fa-icon>
                 </button>
                 <button
                   class="action-button delete-button"
                   @click=${() => this._handleDelete(employee)}
                 >
-                  Delete
+                  <fa-icon class="fas fa-trash" size="1em"></fa-icon>
                 </button>
               </div>
             </div>
