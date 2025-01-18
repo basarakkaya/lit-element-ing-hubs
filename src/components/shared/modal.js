@@ -30,7 +30,7 @@ export class Modal extends LitElement {
       background: white;
       border-radius: 8px;
       padding: 24px;
-      min-width: 400px;
+      min-width: 560px;
       max-width: 90%;
       max-height: 90vh;
       overflow-y: auto;
@@ -69,6 +69,7 @@ export class Modal extends LitElement {
       .modal-container {
         width: 100%;
         height: 100%;
+        min-width: unset;
         max-width: 100%;
         max-height: 100%;
         border-radius: 0;

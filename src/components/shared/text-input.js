@@ -16,7 +16,6 @@ export class TextInput extends LitElement {
       border: 1px solid #ccc;
       border-radius: 4px;
       font-size: 1rem;
-      width: 100%;
     }
   `;
 
