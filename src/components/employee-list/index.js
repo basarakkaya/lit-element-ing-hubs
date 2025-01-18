@@ -2,9 +2,9 @@ import {LitElement, css, html} from 'lit';
 
 import {VIEW_MODES} from '../../consts/viewModes';
 import store from '../../services/store';
-import i18n from '../../services/i18n';
 
 import './empty-state.js';
+import './list-header.js';
 import './list-view.js';
 import './modals.js';
 import '../shared/pagination.js';
@@ -14,10 +14,9 @@ export class EmployeeList extends LitElement {
   static styles = css`
     :host {
       display: block;
-    }
-
-    .employees-list-title {
-      color: #ff6b00;
+      padding: 1rem;
+      max-width: 1200px;
+      margin: 0 auto;
     }
   `;
 
@@ -72,23 +71,11 @@ export class EmployeeList extends LitElement {
     return this.employees.slice(startIndex, endIndex);
   }
 
-  _setViewMode(viewMode) {
-    store.setView(viewMode);
-  }
-
   render() {
     const employeesList = this._getEmployeesToBeListed();
 
     return html`
-      <div>
-        <h1 class="employees-list-title">${i18n.t('employees.list.title')}</h1>
-        ${Object.values(VIEW_MODES).map(
-          (viewMode) =>
-            html`<button @click=${() => this._setViewMode(viewMode)}>
-              ${viewMode}
-            </button>`
-        )}
-      </div>
+      <list-header></list-header>
 
       ${!this.employees?.length ? html`<empty-state></empty-state>` : null}
       ${!!this.employees?.length && this.view === VIEW_MODES.LIST
