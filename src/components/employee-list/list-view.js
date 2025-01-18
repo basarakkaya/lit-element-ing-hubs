@@ -9,7 +9,6 @@ export class ListView extends LitElement {
   static styles = css`
     :host {
       display: block;
-      padding: 1rem;
     }
 
     .employees-list {

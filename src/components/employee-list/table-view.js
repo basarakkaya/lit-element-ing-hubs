@@ -9,7 +9,9 @@ export class TableView extends LitElement {
   static styles = css`
     :host {
       display: block;
-      padding: 1rem;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
     }
 
     table {
