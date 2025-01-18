@@ -53,9 +53,11 @@ export class Pagination extends LitElement {
     }
   `;
 
-  static properties = {
-    pagination: {type: Object},
-  };
+  static get properties() {
+    return {
+      pagination: {type: Object},
+    };
+  }
 
   constructor() {
     super();

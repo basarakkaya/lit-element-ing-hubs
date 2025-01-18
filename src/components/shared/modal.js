@@ -3,10 +3,12 @@ import {LitElement, html, css} from 'lit';
 import store from '../../services/store';
 
 export class Modal extends LitElement {
-  static properties = {
-    title: {type: String},
-    isOpen: {type: Boolean},
-  };
+  static get properties() {
+    return {
+      title: {type: String},
+      isOpen: {type: Boolean},
+    };
+  }
 
   static styles = css`
     :host {

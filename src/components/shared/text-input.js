@@ -19,27 +19,47 @@ export class TextInput extends LitElement {
     }
   `;
 
-  static properties = {
-    inputName: {type: String},
-    required: {type: Boolean},
-    type: {
-      type:
-        'text' |
-        'password' |
-        'email' |
-        'number' |
-        'tel' |
-        'url' |
-        'search' |
-        'date' |
-        'time' |
-        'datetime-local' |
-        'month' |
-        'week' |
-        'color',
-    },
-    value: {type: String},
-  };
+  static get properties() {
+    return {
+      inputName: {type: String},
+      required: {type: Boolean},
+      type: {
+        type: String,
+        reflect: true,
+      },
+      value: {type: String},
+    };
+  }
+
+  set type(value) {
+    const validTypes = [
+      'text',
+      'password',
+      'email',
+      'number',
+      'tel',
+      'url',
+      'search',
+      'date',
+      'time',
+      'datetime-local',
+      'month',
+      'week',
+      'color',
+    ];
+
+    if (!validTypes.includes(value)) {
+      console.warn(`Invalid input type: ${value}. Defaulting to 'text'`);
+      value = 'text';
+    }
+
+    this._type = value;
+    this.requestUpdate('type', value);
+  }
+
+  get type() {
+    return this._type || 'text';
+  }
 
   constructor() {
     super();

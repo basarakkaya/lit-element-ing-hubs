@@ -20,12 +20,14 @@ export class SelectInput extends LitElement {
     }
   `;
 
-  static properties = {
-    inputName: {type: String},
-    options: {type: Array},
-    required: {type: Boolean},
-    value: {type: String},
-  };
+  static get properties() {
+    return {
+      inputName: {type: String},
+      options: {type: Array},
+      required: {type: Boolean},
+      value: {type: String},
+    };
+  }
 
   constructor() {
     super();
