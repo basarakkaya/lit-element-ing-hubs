@@ -84,12 +84,16 @@ export class ListView extends LitElement {
       transition: background-color 0.2s ease;
       background-color: white;
       color: #ff6b00;
-      width: 2rem;
       height: 2rem;
+      width: 2rem;
     }
 
     .action-button:hover {
       background-color: #f3f4f6;
+    }
+
+    .edit-button {
+      box-sizing: border-box;
     }
   `;
 
@@ -123,10 +127,6 @@ export class ListView extends LitElement {
     if (this.unsubscribe) {
       this.unsubscribe();
     }
-  }
-
-  _handleEdit(employee) {
-    store.openModal(MODAL_TYPES.ADD_EDIT, employee);
   }
 
   _handleDelete(employee) {
@@ -182,12 +182,12 @@ export class ListView extends LitElement {
                 </div>
               </div>
               <div class="card-actions">
-                <button
+                <a
                   class="action-button edit-button"
-                  @click=${() => this._handleEdit(employee)}
+                  href="/edit/${employee.id}"
                 >
                   <fa-icon class="fas fa-edit" size="1em"></fa-icon>
-                </button>
+                </a>
                 <button
                   class="action-button delete-button"
                   @click=${() => this._handleDelete(employee)}

@@ -47,6 +47,7 @@ export class TableView extends LitElement {
       cursor: pointer;
       padding: 4px;
       color: #ff6b00;
+      text-decoration: none;
     }
 
     .action-button:hover {
@@ -86,10 +87,6 @@ export class TableView extends LitElement {
     }
   }
 
-  _handleEdit(employee) {
-    store.openModal(MODAL_TYPES.ADD_EDIT, employee);
-  }
-
   _handleDelete(employee) {
     store.openModal(MODAL_TYPES.DELETE, employee);
   }
@@ -127,12 +124,9 @@ export class TableView extends LitElement {
                   ${i18n.t(`employees.form.positions.${employee.position}`)}
                 </td>
                 <td class="actions-cell">
-                  <button
-                    class="action-button"
-                    @click=${() => this._handleEdit(employee)}
-                  >
+                  <a class="action-button" href="/edit/${employee.id}">
                     <fa-icon class="fas fa-edit" size="1em"></fa-icon>
-                  </button>
+                  </a>
                   <button
                     class="action-button"
                     @click=${() => this._handleDelete(employee)}

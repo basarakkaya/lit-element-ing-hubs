@@ -1,12 +1,13 @@
 import {LitElement, css, html} from 'lit';
+import {Router} from '@vaadin/router';
 
 import {DEPARTMENTS} from '../../consts/departments';
-import {MODAL_TYPES} from '../../consts/modalTypes';
 import {POSITIONS} from '../../consts/positions';
 import i18n from '../../services/i18n';
 import store from '../../services/store';
 import {validateEmployeeForm} from '../../utils/validators';
 
+import './edit-confirmation';
 import '../shared/form-group';
 import '../shared/modal';
 import '../shared/select-input';
@@ -18,6 +19,10 @@ export class EmployeeFormModal extends LitElement {
       display: block;
     }
 
+    .title {
+      color: #ff6b00;
+    }
+
     form {
       display: flex;
       flex-direction: column;
@@ -26,9 +31,14 @@ export class EmployeeFormModal extends LitElement {
 
     .actions {
       display: flex;
-      flex-direction: column;
       gap: 0.5rem;
       margin-top: 1rem;
+    }
+
+    @media (max-width: 768px) {
+      .actions {
+        flex-direction: column;
+      }
     }
 
     button {
@@ -64,6 +74,8 @@ export class EmployeeFormModal extends LitElement {
       currentEmployee: {type: Object},
       errors: {type: Object},
       formData: {type: Object},
+      isConfirmationOpen: {type: Boolean},
+      location: {type: Object},
     };
   }
 
@@ -88,10 +100,11 @@ export class EmployeeFormModal extends LitElement {
     super();
 
     this.errors = {};
+    this.location = null;
+    this.isConfirmationOpen = false;
 
     this.unsubscribe = store.subscribe((state) => {
       const updates = {
-        currentEmployee: state.currentEmployee,
         language: state.language,
       };
 
@@ -105,6 +118,25 @@ export class EmployeeFormModal extends LitElement {
     this.setFormData(this.currentEmployee);
   }
 
+  _employeeLookup() {
+    const employeeId = this.location?.params?.id;
+
+    if (employeeId) {
+      const employee = store
+        .getState()
+        .employees.find((emp) => emp.id === employeeId);
+      if (employee) {
+        this.currentEmployee = employee;
+      }
+    }
+  }
+
+  onBeforeEnter(location) {
+    this.location = location;
+
+    this._employeeLookup();
+  }
+
   disconnectedCallback() {
     super.disconnectedCallback();
     if (this.unsubscribe) {
@@ -116,11 +148,22 @@ export class EmployeeFormModal extends LitElement {
     if (changedProperties.has('currentEmployee')) {
       this.setFormData(this.currentEmployee);
     }
+
+    if (changedProperties.has('location')) {
+      this._employeeLookup();
+    }
   }
 
-  _closeModal() {
-    store.closeModal(MODAL_TYPES.ADD_EDIT);
-    this.setFormData();
+  _closeConfirmationModal() {
+    this.isConfirmationOpen = false;
+  }
+
+  _openConfirmationModal() {
+    this.isConfirmationOpen = true;
+  }
+
+  _redirectToEmployeesPage() {
+    Router.go('/');
   }
 
   _handleInputChange(e) {
@@ -133,7 +176,13 @@ export class EmployeeFormModal extends LitElement {
   }
 
   _handleSubmit(e) {
-    e.preventDefault();
+    e?.preventDefault?.();
+
+    // on edit mode, open confirmation modal before submit
+    if (this.currentEmployee && !this.isConfirmationOpen) {
+      this._openConfirmationModal();
+      return;
+    }
 
     const employee = {
       firstName: this.formData.firstName?.trim(),
@@ -153,24 +202,31 @@ export class EmployeeFormModal extends LitElement {
     const errors = validateEmployeeForm(employee);
     if (Object.keys(errors).length > 0) {
       this.errors = errors;
+      this._closeConfirmationModal();
       return;
     }
 
     if (this.currentEmployee) {
+      this._closeConfirmationModal();
       store.updateEmployee(this.currentEmployee.id, employee);
     } else {
       store.addEmployee(employee);
     }
 
-    this._closeModal();
+    this._redirectToEmployeesPage();
   }
 
   _handleCancel() {
-    this._closeModal();
+    this._redirectToEmployeesPage();
   }
 
   render() {
     return html`
+      <h1 class="title">
+        ${this.currentEmployee
+          ? i18n.t('employees.modalTitles.edit')
+          : i18n.t('employees.modalTitles.add')}
+      </h1>
       <form @submit=${this._handleSubmit}>
         <form-group .error="${this.errors.firstName}" inputName="firstName">
           <text-input
@@ -264,6 +320,17 @@ export class EmployeeFormModal extends LitElement {
           <button type="submit">${i18n.t('employees.form.save')}</button>
         </div>
       </form>
+
+      <lit-modal
+        ?isOpen=${this.isConfirmationOpen}
+        .title="${i18n.t('employees.modalTitles.edit')}"
+        @modal-close="${() => this._closeConfirmationModal()}"
+      >
+        <edit-confirmation
+          .onCancel=${() => this._closeConfirmationModal()}
+          .onProceed=${(e) => this._handleSubmit(e)}
+        ></edit-confirmation>
+      </lit-modal>
     `;
   }
 }

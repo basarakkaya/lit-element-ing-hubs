@@ -44,6 +44,7 @@ export const translations = {
       },
       confirmations: {
         delete: 'You are now deleting the record of {fullName}. Are you sure?',
+        edit: 'You are editing the user. Are you sure?',
       },
       modalTitles: {
         add: 'Add new employee',
@@ -97,6 +98,7 @@ export const translations = {
       confirmations: {
         delete:
           '{fullName} isimli çalışanı silmek istediğinizden emin misiniz?',
+        edit: 'Kullanıcı kaydını güncellemek üzeresiniz. Emin misiniz?',
       },
       modalTitles: {
         add: 'Yeni çalışan oluştur',

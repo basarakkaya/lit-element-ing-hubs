@@ -1,7 +1,6 @@
 import {LitElement, html, css} from 'lit';
 import 'fa-icons';
 
-import {MODAL_TYPES} from '../../consts/modalTypes';
 import i18n, {LANGUAGES} from '../../services/i18n';
 import store from '../../services/store';
 
@@ -48,6 +47,7 @@ export class NavigationBar extends LitElement {
       align-items: center;
       gap: 0.5rem;
       color: #4b5563;
+      font-size: 0.875rem;
       text-decoration: none;
     }
 
@@ -56,6 +56,8 @@ export class NavigationBar extends LitElement {
     }
 
     .add-new-btn {
+      box-sizing: border-box;
+      text-decoration: none;
       display: flex;
       align-items: center;
       gap: 0.5rem;
@@ -66,6 +68,7 @@ export class NavigationBar extends LitElement {
       border: none;
       cursor: pointer;
       height: 2rem;
+      font-size: 0.875rem;
     }
 
     .add-new-btn:hover {
@@ -213,10 +216,6 @@ export class NavigationBar extends LitElement {
     return currentLang ? currentLang.name : 'Language';
   }
 
-  _handleAddNew() {
-    store.openModal(MODAL_TYPES.ADD_EDIT, null);
-  }
-
   render() {
     return html`
       <nav class="nav-container">
@@ -225,14 +224,19 @@ export class NavigationBar extends LitElement {
         </div>
 
         <div class="right-section">
-          <a href="/#" class="employees-link">
+          <a href="/" class="employees-link">
+            <fa-icon class="fas fa-users" size="0.875rem"></fa-icon>
             <span>${i18n.t('navigation.employees')}</span>
           </a>
 
-          <button class="add-new-btn" @click=${this._handleAddNew}>
-            <fa-icon class="fas fa-plus" color="white" size="1em"></fa-icon>
+          <a class="add-new-btn" href="/create">
+            <fa-icon
+              class="fas fa-plus"
+              color="white"
+              size="0.875rem"
+            ></fa-icon>
             <span> ${i18n.t('navigation.addEmployee')}</span>
-          </button>
+          </a>
 
           <div class="lang-selector">
             <button class="lang-button" @click=${this._toggleDropdown}>

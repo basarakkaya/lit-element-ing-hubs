@@ -61,14 +61,6 @@ export class EmployeeModals extends LitElement {
   render() {
     return html`
       <lit-modal
-        ?isOpen=${this.modals[MODAL_TYPES.ADD_EDIT]}
-        .title="${this.currentEmployee
-          ? i18n.t('employees.modalTitles.edit')
-          : i18n.t('employees.modalTitles.add')}"
-        @modal-close="${() => store.closeModal(MODAL_TYPES.ADD_EDIT)}"
-        ><employee-form></employee-form
-      ></lit-modal>
-      <lit-modal
         ?isOpen=${this.modals[MODAL_TYPES.DELETE]}
         .title="${i18n.t('employees.modalTitles.delete')}"
         @modal-close="${() => store.closeModal(MODAL_TYPES.DELETE)}"

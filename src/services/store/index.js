@@ -2,7 +2,6 @@ import {MODAL_TYPES} from '../../consts/modalTypes';
 import {VIEW_MODES} from '../../consts/viewModes';
 
 const defaultModalsState = {
-  [MODAL_TYPES.ADD_EDIT]: false,
   [MODAL_TYPES.DELETE]: false,
 };
 
@@ -108,7 +107,7 @@ class EmployeeStore {
     this.state.currentEmployee = employee ? {...employee} : null;
     this.state.modals = {
       ...defaultModalsState,
-      [modal]: modal === MODAL_TYPES.ADD_EDIT ? true : Boolean(employee),
+      [modal]: Boolean(employee),
     };
     this.notify();
   }

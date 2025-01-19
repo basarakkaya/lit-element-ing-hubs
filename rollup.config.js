@@ -8,12 +8,14 @@ import summary from 'rollup-plugin-summary';
 import terser from '@rollup/plugin-terser';
 import resolve from '@rollup/plugin-node-resolve';
 import replace from '@rollup/plugin-replace';
+import copy from 'rollup-plugin-copy';
 
 export default {
   input: 'app-root.js',
   output: {
-    file: 'app-root.bundled.js',
+    dir: 'dist',
     format: 'esm',
+    sourcemap: true,
   },
   onwarn(warning) {
     if (warning.code !== 'THIS_IS_UNDEFINED') {
@@ -21,12 +23,12 @@ export default {
     }
   },
   plugins: [
-    replace({preventAssignment: false, 'Reflect.decorate': 'undefined'}),
+    replace({
+      preventAssignment: true,
+      'Reflect.decorate': 'undefined',
+      'process.env.NODE_ENV': JSON.stringify(process.env.MODE || 'prod'),
+    }),
     resolve(),
-    /**
-     * This minification setup serves the static site generation.
-     * For bundling and minification, check the README.md file.
-     */
     terser({
       ecma: 2021,
       module: true,
@@ -36,6 +38,22 @@ export default {
           regex: /^__/,
         },
       },
+    }),
+    copy({
+      targets: [
+        {
+          src: 'index.html',
+          dest: 'dist',
+          transform: (contents) =>
+            contents
+              .toString()
+              .replace('src="./app-root.js"', 'src="./app-root.bundled.js"'),
+        },
+        {
+          src: ['assets/*', 'styles/*'],
+          dest: 'dist',
+        },
+      ],
     }),
     summary(),
   ],
